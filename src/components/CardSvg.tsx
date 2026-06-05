@@ -63,10 +63,13 @@ export function CardSvg({
   const roadW = W * 0.28;
   const path = roadPath(edges, W, H);
 
-  // 画像URL: /cards/front/card_01.png など
+  // import.meta.env.BASE_URL を使うことで --base=/games/sprawlopolis/ にも対応
+  // dev:  BASE_URL='/'  → /cards/front/card_01.png
+  // prod: BASE_URL='/games/sprawlopolis/' → /games/sprawlopolis/cards/front/card_01.png
+  const base = import.meta.env.BASE_URL; // 末尾に / が付く
   const imgSrc = showBack
-    ? `/cards/back/card_${String(card.id).padStart(2,'0')}.png`
-    : `/cards/front/card_${String(card.id).padStart(2,'0')}.png`;
+    ? `${base}cards/back/card_${String(card.id).padStart(2,'0')}.png`
+    : `${base}cards/front/card_${String(card.id).padStart(2,'0')}.png`;
 
   // Step9: 回転アニメーション用トランジション
   const rotateStyle = animateRotation ? {
