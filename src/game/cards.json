@@ -1,0 +1,564 @@
+{
+  "meta": {
+    "game": "Sprawlopolis",
+    "publisher": "Button Shy Games",
+    "designers": [
+      "Steven Aramini",
+      "Danny Devine",
+      "Paul Kluka"
+    ],
+    "total_cards": 18,
+    "zone_types": {
+      "C": "commercial (blue)",
+      "P": "park (green)",
+      "I": "industrial (grey)",
+      "R": "residential (orange)"
+    },
+    "blocks_per_card": "2x2 grid [TL,TR] / [BL,BR]",
+    "road_note": "Road always passes through the Industrial quadrant, connecting its 2 adjacent edges"
+  },
+  "cards": [
+    {
+      "id": 1,
+      "name": "THE OUTSKIRTS",
+      "number": 1,
+      "blocks": [
+        [
+          "I",
+          "R"
+        ],
+        [
+          "P",
+          "C"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "L"
+      ],
+      "road_quadrant": "TL",
+      "scoring": {
+        "type": "road_edge",
+        "rules": [
+          {
+            "condition": "road_not_at_city_edge",
+            "points": 1
+          },
+          {
+            "condition": "road_at_city_edge",
+            "points": -1
+          }
+        ],
+        "description": "+1pt 都市の端で終わらない道路ごと / -1pt 都市の端で終わる道路ごと"
+      }
+    },
+    {
+      "id": 2,
+      "name": "BLOOM BOOM",
+      "number": 2,
+      "blocks": [
+        [
+          "P",
+          "I"
+        ],
+        [
+          "R",
+          "C"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "R"
+      ],
+      "road_quadrant": "TR",
+      "scoring": {
+        "type": "row_col_park",
+        "rules": [
+          {
+            "condition": "row_or_col_has_exactly_3_park",
+            "points": 1
+          },
+          {
+            "condition": "row_or_col_has_exactly_0_park",
+            "points": -1
+          }
+        ],
+        "description": "+1pt ちょうど3つのParkブロックがある行/列ごと / -1pt Parkが0の行/列ごと"
+      }
+    },
+    {
+      "id": 3,
+      "name": "GO GREEN",
+      "number": 3,
+      "blocks": [
+        [
+          "C",
+          "R"
+        ],
+        [
+          "I",
+          "P"
+        ]
+      ],
+      "road_edges": [
+        "B",
+        "L"
+      ],
+      "road_quadrant": "BL",
+      "scoring": {
+        "type": "block_count",
+        "rules": [
+          {
+            "zone": "park",
+            "points_per_block": 1
+          },
+          {
+            "zone": "industrial",
+            "points_per_block": -3
+          }
+        ],
+        "description": "+1pt Parkブロックごと / -3pt Industrialブロックごと"
+      }
+    },
+    {
+      "id": 4,
+      "name": "BLOCK PARTY",
+      "number": 4,
+      "blocks": [
+        [
+          "P",
+          "C"
+        ],
+        [
+          "I",
+          "R"
+        ]
+      ],
+      "road_edges": [
+        "B",
+        "L"
+      ],
+      "road_quadrant": "BL",
+      "scoring": {
+        "type": "table_lookup",
+        "table": {
+          "0": -8,
+          "1": -5,
+          "2": -2,
+          "3": 1,
+          "4": 4,
+          "5+": 7
+        },
+        "metric": "groups_of_4_corner_touching_same_zone",
+        "description": "同ゾーン4ブロックのコーナー接触グループ数に応じてスコア: 0→-8, 1→-5, 2→-2, 3→+1, 4→+4, 5+→+7"
+      }
+    },
+    {
+      "id": 5,
+      "name": "STACKS AND SCRAPERS",
+      "number": 5,
+      "blocks": [
+        [
+          "R",
+          "I"
+        ],
+        [
+          "C",
+          "P"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "R"
+      ],
+      "road_quadrant": "TR",
+      "scoring": {
+        "type": "group_comparison",
+        "rules": [
+          {
+            "operation": "subtract",
+            "a": "largest_industrial_group",
+            "b": "largest_residential_group"
+          }
+        ],
+        "description": "最大Industrialグループ数 - 最大Residentialグループ数 = スコア"
+      }
+    },
+    {
+      "id": 6,
+      "name": "MASTER PLANNED",
+      "number": 6,
+      "blocks": [
+        [
+          "C",
+          "R"
+        ],
+        [
+          "I",
+          "P"
+        ]
+      ],
+      "road_edges": [
+        "B",
+        "L"
+      ],
+      "road_quadrant": "BL",
+      "scoring": {
+        "type": "group_comparison",
+        "rules": [
+          {
+            "operation": "subtract",
+            "a": "largest_residential_group",
+            "b": "largest_industrial_group"
+          }
+        ],
+        "description": "最大Residentialグループ数 - 最大Industrialグループ数 = スコア"
+      }
+    },
+    {
+      "id": 7,
+      "name": "CENTRAL PERKS",
+      "number": 7,
+      "blocks": [
+        [
+          "C",
+          "P"
+        ],
+        [
+          "R",
+          "I"
+        ]
+      ],
+      "road_edges": [
+        "B",
+        "R"
+      ],
+      "road_quadrant": "BR",
+      "scoring": {
+        "type": "park_position",
+        "rules": [
+          {
+            "condition": "park_in_city_interior",
+            "points": 6
+          },
+          {
+            "condition": "park_on_city_edge",
+            "points": -2
+          }
+        ],
+        "description": "+6pt 都市内部のParkブロックごと / -2pt 都市端のParkブロックごと"
+      }
+    },
+    {
+      "id": 8,
+      "name": "THE BURRS",
+      "number": 8,
+      "blocks": [
+        [
+          "R",
+          "C"
+        ],
+        [
+          "P",
+          "I"
+        ]
+      ],
+      "road_edges": [
+        "B",
+        "R"
+      ],
+      "road_quadrant": "BR",
+      "scoring": {
+        "type": "adjacency_to_largest_group",
+        "target_group": "residential",
+        "rules": [
+          {
+            "adjacent_zone": "park",
+            "points": 1
+          },
+          {
+            "adjacent_zone": "industrial",
+            "points": -2
+          }
+        ],
+        "description": "最大Residentialグループに隣接するPark: +1pt / Industrial: -2pt"
+      }
+    },
+    {
+      "id": 9,
+      "name": "CONCRETE JUNGLE",
+      "number": 9,
+      "blocks": [
+        [
+          "I",
+          "R"
+        ],
+        [
+          "P",
+          "C"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "L"
+      ],
+      "road_quadrant": "TL",
+      "scoring": {
+        "type": "corner_adjacency",
+        "rules": [
+          {
+            "condition": "industrial_sharing_corner_with_industrial",
+            "points": 1
+          }
+        ],
+        "description": "+1pt 他のIndustrialとコーナー共有するIndustrialブロックごと"
+      }
+    },
+    {
+      "id": 10,
+      "name": "THE STRIP",
+      "number": 10,
+      "blocks": [
+        [
+          "P",
+          "R"
+        ],
+        [
+          "C",
+          "I"
+        ]
+      ],
+      "road_edges": [
+        "B",
+        "R"
+      ],
+      "road_quadrant": "BR",
+      "scoring": {
+        "type": "best_row_or_col",
+        "zone": "commercial",
+        "score_per_block": 1,
+        "choose": 1,
+        "description": "任意の1行または1列のCommercialブロック数 × +1pt (最大1行/列のみ)"
+      }
+    },
+    {
+      "id": 11,
+      "name": "MINI MARTS",
+      "number": 11,
+      "blocks": [
+        [
+          "I",
+          "P"
+        ],
+        [
+          "C",
+          "R"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "L"
+      ],
+      "road_quadrant": "TL",
+      "scoring": {
+        "type": "road_sandwich",
+        "pattern": "residential_commercial_residential_stepped",
+        "points": 2,
+        "description": "+2pt 同一道路で2つのResidentialに挟まれたCommercialブロック(階段状配置)ごと"
+      }
+    },
+    {
+      "id": 12,
+      "name": "SUPERHIGHWAY",
+      "number": 12,
+      "blocks": [
+        [
+          "R",
+          "C"
+        ],
+        [
+          "P",
+          "I"
+        ]
+      ],
+      "road_edges": [
+        "B",
+        "R"
+      ],
+      "road_quadrant": "BR",
+      "scoring": {
+        "type": "longest_road",
+        "points_per_2_sections": 1,
+        "description": "最長道路のセクション数 ÷ 2 (切り捨て) × +1pt"
+      }
+    },
+    {
+      "id": 13,
+      "name": "PARK HOPPING",
+      "number": 13,
+      "blocks": [
+        [
+          "C",
+          "I"
+        ],
+        [
+          "P",
+          "R"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "R"
+      ],
+      "road_quadrant": "TR",
+      "scoring": {
+        "type": "road_park_to_park",
+        "points": 3,
+        "description": "+3pt 異なる2つのParkブロックを結ぶ道路ごと (ループも別カウント)"
+      }
+    },
+    {
+      "id": 14,
+      "name": "LOOPING LANES",
+      "number": 14,
+      "blocks": [
+        [
+          "C",
+          "I"
+        ],
+        [
+          "P",
+          "R"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "R"
+      ],
+      "road_quadrant": "TR",
+      "scoring": {
+        "type": "road_loop",
+        "points_per_section": 1,
+        "max_points": 12,
+        "description": "完成したループ内の道路セクションごと +1pt (最大12pt、複数ループ合算)"
+      }
+    },
+    {
+      "id": 15,
+      "name": "SKID ROW",
+      "number": 15,
+      "blocks": [
+        [
+          "R",
+          "I"
+        ],
+        [
+          "C",
+          "P"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "R"
+      ],
+      "road_quadrant": "TR",
+      "scoring": {
+        "type": "industrial_adjacency",
+        "rules": [
+          {
+            "condition": "industrial_adjacent_to_2plus_industrial",
+            "points": 2
+          }
+        ],
+        "description": "+2pt 2つ以上のIndustrialブロックに隣接するIndustrialブロックごと"
+      }
+    },
+    {
+      "id": 16,
+      "name": "MORNING COMMUTE",
+      "number": 16,
+      "blocks": [
+        [
+          "C",
+          "I"
+        ],
+        [
+          "P",
+          "R"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "R"
+      ],
+      "road_quadrant": "TR",
+      "scoring": {
+        "type": "road_passes_through",
+        "required_zones": [
+          "residential",
+          "commercial"
+        ],
+        "points": 2,
+        "description": "+2pt ResidentialとCommercial両方を通過する道路ごと"
+      }
+    },
+    {
+      "id": 17,
+      "name": "TOURIST TRAPS",
+      "number": 17,
+      "blocks": [
+        [
+          "I",
+          "C"
+        ],
+        [
+          "R",
+          "P"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "L"
+      ],
+      "road_quadrant": "TL",
+      "scoring": {
+        "type": "commercial_industrial_edge",
+        "rules": [
+          {
+            "condition": "commercial_on_edge_of_more_industrial",
+            "points_base": 1,
+            "points_per_extra": 1
+          }
+        ],
+        "description": "+1pt Industrial隣接数が多い側にあるCommercialブロックごと (+追加1pt/ブロック)"
+      }
+    },
+    {
+      "id": 18,
+      "name": "SPRAWLOPOLIS",
+      "number": 18,
+      "blocks": [
+        [
+          "I",
+          "C"
+        ],
+        [
+          "R",
+          "P"
+        ]
+      ],
+      "road_edges": [
+        "T",
+        "L"
+      ],
+      "road_quadrant": "TL",
+      "scoring": {
+        "type": "best_row_or_col_all",
+        "score_per_block": 1,
+        "max_points": 6,
+        "choose": 1,
+        "description": "任意の1行または1列の全ブロック数 × +1pt (最大6pt、ギャップを飛ばした最大連続)"
+      }
+    }
+  ]
+}
